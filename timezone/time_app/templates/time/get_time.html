@@ -1,0 +1,28 @@
+{% load tz %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body class="styling">  
+<p>Change the city for which you need to see the time</p>
+{% get_current_timezone as TIME_ZONE %}
+<form action="{% url 'set_time' %}" method="POST">
+    {% csrf_token %}
+    <p>
+    <select name="timezone">
+        {% for city, tz in timezones %}
+        <option value="none" selected disabled hidden>Select a city</option>
+        <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+    </select>
+    </p>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
